@@ -1,0 +1,1 @@
+{"version":3,"file":"mian.js","mappings":";;;;;AAAA,IAAMA,CAAC,GAAG,CAAV;AACA,IAAMC,CAAC,GAAG,CAAV;AACAC,OAAO,CAACC,GAAR,CAAYH,CAAC,GAAGC,CAAhB,GAEA;AAEA,I","sources":["webpack://lesson1/./src/index.js"],"sourcesContent":["const a = 1;\nconst b = 2;\nconsole.log(a + b);\n\n// if (true) {\n\n// }\n"],"names":["a","b","console","log"],"sourceRoot":""}

@@ -1,0 +1,8 @@
+@import "./bg.css";
+
+#transform {
+    width: 200px;
+    height: 200px;
+    background-color: pink;
+    transform: rotate(-45deg);
+}

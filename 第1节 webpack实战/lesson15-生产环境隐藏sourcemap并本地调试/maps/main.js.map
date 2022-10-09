@@ -1,0 +1,1 @@
+{"version":3,"file":"main.js","mappings":"AACAA,QAAQC,IADE","sources":["webpack://lesson1/./src/index.js"],"sourcesContent":["const a = 1;\nconsole.log(a);\n"],"names":["console","log"],"sourceRoot":""}
