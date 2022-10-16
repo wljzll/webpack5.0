@@ -1,5 +1,5 @@
 
-let Complier = require('./Complier');
+let Compiler = require('./Compiler');
 
 function webpack(options) {
     // 1. 初始化参数: 从配置文件和shell语句中读取并合并参数, 得出最终的配置对象
@@ -23,20 +23,19 @@ function webpack(options) {
     }, {});
     // 真正的源码里是用webpack-merge合并的 并不能通过这种暴力合并合并参数
     let finalOptions = { ...options, ...shellOptions };
-    console.log(finalOptions);
-    // 2. 用上一步得到的参数初始化Complier对象
-    let complier = new Complier(finalOptions);
+    // 2. 用上一步得到的参数初始化Compiler对象
+    let compiler = new Compiler(finalOptions);
 
     // 3. 加载所有配置的插件
     // 解构出插件
     let { plugins } = finalOptions;
     // 遍历所有插件
     for (let plugin of plugins) {
-        // 执行插件的apply方法并将complier实例传入
-        plugin.apply(complier);
+        // 执行插件的apply方法并将compiler实例传入
+        plugin.apply(compiler);
     }
 
-    return complier;
+    return compiler;
 }
 
 module.exports = webpack;

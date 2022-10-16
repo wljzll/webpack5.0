@@ -3,7 +3,7 @@
  */
  class DonePlugin {
     apply(complier) {
-        complier.hooks.run.tap('DonePlugin', () => {
+        complier.hooks.done.tap('DonePlugin', () => {
             console.log('done: 结束编译');
         })
     }
