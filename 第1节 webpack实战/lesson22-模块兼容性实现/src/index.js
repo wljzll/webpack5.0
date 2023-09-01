@@ -1,9 +1,6 @@
-import name, {age} from './title';
-console.log(name);
-console.log(age);
+// import * as anything from './title';
 
-// 加载过来的title大概长成这样
-// title = {
-//     default: 'title_name',
-//     age: 'title_age',
-// }
+// console.log(anything);
+
+console.log(import('./title'));
+// console.log(Module);

@@ -12,7 +12,7 @@ module.exports = (env) => {
         entry: './src/index.js',
         output: {
             path: path.resolve(__dirname, 'dist'), // 输出文件夹路径
-            filename: 'mian.js' // 输出的文件文件名 不写默认是main.js
+            filename: 'main.js' // 输出的文件文件名 不写默认是main.js
         },
         devServer: {
           port: '3000', // 配置http服务器预览的端口号 如果不设置默认是8080

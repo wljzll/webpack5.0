@@ -11,12 +11,22 @@
       var age = 'title_age';
     }
   };
+
   var cache = {};
+  /**
+   * 
+   * @param {*} moduleId 模块id
+   * @returns 
+   */
   function require(moduleId) {
+    // 缓存中是否有
     var cachedModule = cache[moduleId];
+    // 有
     if (cachedModule !== undefined) {
+      // 取出来
       return cachedModule.exports;
     }
+    // 没有 放到缓存 定义一个exports
     var module = cache[moduleId] = {
       exports: {}
     };

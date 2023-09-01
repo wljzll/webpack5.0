@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cross-env NODE_ENV1=xxx webpack"
+    "build": "cross-env NODE_ENV=666 webpack --env=xxx"
   },
   "keywords": [],
   "author": "",

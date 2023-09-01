@@ -4,7 +4,7 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-   "build": "webpack"
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",

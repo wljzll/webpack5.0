@@ -37,7 +37,7 @@ module.exports = {
                     options: {
                         esModule: false, // false是不将图片打包成ES6模块, ES6模块在取的时候需要.defalut 非ES6模块则直接使用即可
                         name: `[hash:8].[ext]`,
-                        limit: 121 * 1024, // 如果文件小于这个阈值 就不会拷贝图片 而是把图片转成BASE64嵌入到文件中
+                        limit: 11 * 1024, // 如果文件小于这个阈值 就不会拷贝图片 而是把图片转成BASE64嵌入到文件中
                     }
                 }]
             }

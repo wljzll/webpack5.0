@@ -4,7 +4,7 @@ let escodegen = require('escodegen');　// 从AST抽象语法树生成JS代码
 
 let sourceCode = `function ast() {}`;
 let ast = esprima.parse(sourceCode);
-console.log(ast);
+console.log(JSON.parse(JSON.stringify(ast), null, 5));
 
 let indent = 0;
 const padding = () => ' '.repeat(indent);

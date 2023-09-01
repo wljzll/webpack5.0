@@ -2,6 +2,7 @@
 const webpack = require('./webpack');
 // 加载配置文件
 const options = require('./webpack.config');
+debugger;
 // 将配置项交给webpack执行 返回compiler对象
 const compiler = webpack(options);
 console.log('debugger', process.cwd());

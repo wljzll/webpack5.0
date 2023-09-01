@@ -1,6 +1,8 @@
 ## 环境变量mode
 
-### 1、模块内的process.env.NODE_ENV是如何配置的
+## process是node的进程 在项目JS文件中是获取不到的 这里之所以能获取到是因为我们使用了 webpack.DefinePlugin插件向JS中注入了变量
+
+### 1、模块内(也就是项目的JS文件内)的process.env.NODE_ENV是如何配置的
 ```
 1、先根据package.json脚本中的 --mode=环境变量 来，命令行中的优先("build": "webpack --mode=production")
 2、如果package.json中没有配置，则看配置文件中的mode是否有值
@@ -9,6 +11,14 @@
 重要：这两个地方的配置，只影响模块内的process.env.NODE_ENV 不影响node环境中 只配置这两个的话 node环境中的process.env.NODE_ENV为undefined
 
 模块内的process.env.NODE_ENV是如何编译的：模块替换，直接将process.env.NODE_ENV替换成对应的字符串
+
+重要: webpack会从配置文件的mode中自动为process.env.NODE_ENV赋值，而取的值，就是该配置文件的mode属性。如果没有值，则会默认返回“production”。这个就是初始存在的值。
+
+optimization: {
+    nodeEnv: false
+}
+
+webpack加了这个配置就不会默认用DefinePlugin默认定义process.env.NODE_ENV
 ```
 
 ### 2、在package.json中配置脚本 ("build": "webpack --env=production")
@@ -48,4 +58,24 @@ The 'mode' option has not been set, webpack will fallback to 'production' for
 this value.
 
 所以想让node进程和模块内公用同一个变量可以通过cross-env设置非NODE_ENV变量
+```
+
+```
+模块内(项目JS文件内)使用的环境变量process.env.NODE_ENV, 只能通过配置文件的 mode 属性 或者 --mode=production|development来设置 
+而且名字只能是production|development, 
+特别: 你在模块内访问process是报错的, 只能访问process.env.NODE_ENV
+webpack内部会通过DefinePlugin默认添加process.env.NODE_ENV向模块注入这个变量
+
+--env=[any]: 只能在配置文件导出的函数参数中获取到和mode/--mode不是一个东西,两者也互不影响
+
+cross-env: 可以向node进程设置任意变量, 当重名时
+
+```
+```
+                                                                  node环境中     webpack配置文件导出函数参数     模块内
+mode:'production|development' | --mode=production|development        否                   否                   是
+
+                                                    --env=xxx        否                   是                   否
+
+                                          cross-env key=value        是                   否                   否
 ```

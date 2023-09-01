@@ -17,7 +17,9 @@ function require(moduleId) {
 require.m = modules; // 模块定义赋值给m
 require.c = cache; // 模块缓存赋值给c
 require.f = {};
-require.p = 'http://127.0.0.1:8081/';
+// require.p = 'http://127.0.0.1:8081/';
+require.p = 'http://127.0.0.1:5501/%E7%AC%AC1%E8%8A%82%20webpack%E5%AE%9E%E6%88%98/lesson23-%E6%A8%A1%E5%9D%97%E6%87%92%E5%8A%A0%E8%BD%BD%E5%AE%9E%E7%8E%B0/lazy/'
+
 // 给模块添加ESModule标识
 require.r = exports => {
   Object.defineProperty(exports, Symbol.toStringTag, {
@@ -27,6 +29,7 @@ require.r = exports => {
     value: true
   });
 }
+
 // 给模块定义getter
 require.d = (exports, definition) => {
   for (var key in definition) {
@@ -36,7 +39,9 @@ require.d = (exports, definition) => {
     });
   }
 };
+
 require.u = (chunkId) => chunkId + '.main.js';
+
 require.l = (url) => {
   let script = document.createElement('script');
   script.src = url;
@@ -48,22 +53,36 @@ var installedChunks = {
   main: 0, // 0表示已经安装好
 }
 
+/**
+ * 
+ * @param {*} chunkId 代码块Id
+ * @param {*} promises 用来存放promise的数组
+ */
 require.f.j = (chunkId, promises) => {
   var installedChunkData;
+  // 创建promise
   var promise = new Promise((resolve, reject) => {
+    // 收集Promise的resolve&reject
     installedChunkData = installedChunks[chunkId] = [resolve, reject];
   })
-
+  // installedChunkData = [resolve, reject]
+  // 将promise添加到第三个然后将installedChunkData添加到promises中
   promises.push(installedChunkData[2] = promise);
-  var url = require.p + require.u(chunkId); // 这个是JSONP要加载的脚本的路径
+  // 组装路径 这个是JSONP要加载的脚本的路径
+  var url = require.p + require.u(chunkId);
+  // 根据url加载脚本
   require.l(url);
 }
 
 require.e = (chunkId) => {
+  // 定义空数组
   let promises = [];
+  // 将chunkId(代码块Id)和空数组传入
   require.f.j(chunkId, promises);
   return Promise.all(promises);
 }
+
+// 声明方法
 var webpackJsonpCallback = ([chunkIds, moreModules]) => {
   var moduleId, chunkId, i = 0, resolves = [];
   for (; i < chunkIds.length; i++) {

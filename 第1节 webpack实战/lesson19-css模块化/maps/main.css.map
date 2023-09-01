@@ -1,0 +1,1 @@
+{"version":3,"file":"main.css","mappings":";;;AAAA;IACI,UAAU;AACd;;AAEA;IACI,YAAY;IACZ,aAAa;IACb,yDAAwC;AAC5C,C","sources":["webpack://lesson1/./src/index.css"],"sourcesContent":[".title {\n    color: red;\n}\n\n.logo{\n    width: 100px;\n    height: 100px;\n    background-image: url(./images/cat.webp);\n}"],"names":[],"sourceRoot":""}
