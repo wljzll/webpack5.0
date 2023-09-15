@@ -132,6 +132,7 @@ function interatePitchingLoaders(processOptions, loaderContext, finalCallback) {
       finalCallback
     );
   }
+  // 同步或异步执行pitch 这取决于loader的pitch如何调用回调函数
   runSyncOrAsync(
     pitchFunction,
     loaderContext,
@@ -141,10 +142,10 @@ function interatePitchingLoaders(processOptions, loaderContext, finalCallback) {
       loaderContext.data,
     ],
     (err, ...values) => {
-      // 如果有返回值
+      // 如果有返回值 (pitching loader 返回了值就相当于在它以及它右边的 loader 已经执行完毕) 掉头去执行上一个loader的normal
       if (values.length > 0 && !!values[0]) {
         loaderContext.loaderIndex--; // 索引减一，回到上一个loader，执行上一个loader的normal方法
-        // interatePitchingLoaders(processOptions, loaderContext, values, finalCallback)
+        interateNormalLoaders(processOptions, loaderContext, values, finalCallback)
       } else {
         interatePitchingLoaders(processOptions, loaderContext, finalCallback)
       }
@@ -152,15 +153,25 @@ function interatePitchingLoaders(processOptions, loaderContext, finalCallback) {
   );
 }
 
+/**
+ * 
+ * @param {*} fn pitch或normal函数
+ * @param {*} context 上线文
+ * @param {*} args 参数
+ * @param {*} callback pitch/normal执行完后执行的回调函数
+ * @returns 
+ */
 function runSyncOrAsync(fn, context, args, callback) {
   let isSync = true; // 是否同步 默认是同步
   let isDone = false; // 是否fn已经执行完成 默认是false
-  // 当前loader执行完成后回调用这个方法
+  // 当前loader的pitch/normal执行完成后 可以调用这个回调函数
   const innerCallback = (context.callback = function (err, ...values) {
     isDone = true;
     isSync = false;
     callback(err, ...values);
   });
+
+  // 提供异步调用方式让loader的pitch/normal方法调用
   context.async = function () {
     isSync = false; // 把同步标志设置为false 意思就是改为异步
     return innerCallback;
@@ -169,6 +180,8 @@ function runSyncOrAsync(fn, context, args, callback) {
   // pitch的返回值可有可无
   let result = fn.apply(context, args);
   // console.log(args[0], fn, result, '======')
+
+  // 执行完loader的pitch 还是同步的话就直接调用回调函数
   if (isSync) {
     isDone = true; // 直接完成
     return callback(null, result); // 调用回调
@@ -187,7 +200,9 @@ function runSyncOrAsync(fn, context, args, callback) {
 function runLoaders(options, callback) {
   let resource = options.resource || ""; // 要加载的资源 c:/src/index.js?name=zhufeng#top
   let loaders = options.loaders || []; // loader的绝对路径的数组
+
   let loaderContext = options.context || {}; // 这个是一个对象，它将会成为loader函数执行时候的上下文
+
   let readResource = options.readResource || readFile; // 读取文件的方法
   let splittedResource = parsePathQueryFragment(resource); // c:/src/index.js?name=zhufeng#top 用正则去匹配query和hash
 
